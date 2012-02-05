@@ -34,7 +34,7 @@ app.configure('production', function(){
 });
 
 app.helpers({
-  title: 'vidchat powered by webrtc'
+  title: 'Vidchat powered by WebRTC'
 });
 
 // Routes
