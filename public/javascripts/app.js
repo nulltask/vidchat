@@ -32,8 +32,7 @@
     });
     
     $(video).on('timeupdate', function(e) {
-      var ctx = canvas.getContext('2d')
-        , imageData, edge, quant = [];
+      var ctx = canvas.getContext('2d');
       
       ctx.drawImage(video, 0, 0);
       filter.postMessage(Array.prototype.slice.call(ctx.getImageData(0, 0, 320, 240).data, 0));
