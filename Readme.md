@@ -11,7 +11,7 @@ __vidchat__ is experimental video chat implementation with Node.js + Socket.IO +
 ## Requirement
 
 * Node v0.6.10
-* Google Chrome 18 (with enable webrtc)
+* Google Chrome 18+ (with [--enable-media-stream](http://www.webrtc.org/running-the-demos))
 
 ## Installation
 
