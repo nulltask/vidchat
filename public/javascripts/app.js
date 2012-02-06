@@ -1,17 +1,18 @@
 !function(window, document, $, undefined) {
 
-  var getUserMedia =
+  var socket = io.connect()
+    , getUserMedia =
     navigator.getUserMedia ||
     navigator.webkitGetUserMedia ||
     navigator.MozGetUserMedia ||
     navigator.oGetUserMedia ||
-    navigator.msGetUserMedia
-   , socket = io.connect();
+    navigator.msGetUserMedia;
     
   $(function() {
     var video = document.getElementById('monitor')
       , canvas = document.getElementById('capture')
-      , receive = document.getElementById('receive');
+      , receive = document.getElementById('receive')
+      , filter = new Worker('/javascripts/filters/edge.js');
 
     socket.emit('hello', { hello: 'world' });
     socket.on('capture', function(data) {
@@ -25,9 +26,9 @@
         
     navigator.webkitGetUserMedia('video audio', function(stream) {
       video.src = webkitURL.createObjectURL(stream);
-      video.onerror = function () {
+      video.addEventListener('error', function () {
         stream.stop();
-      };
+      });
     });
     
     $(video).on('timeupdate', function(e) {
@@ -35,42 +36,21 @@
         , imageData, edge, quant = [];
       
       ctx.drawImage(video, 0, 0);
-      imageData = ctx.getImageData(0, 0, 320, 240);
-      
-      for (var i = 0, n = imageData.data.length; i < n; i += 4) {
-        var r = imageData.data[i] & 0xff
-          , g = imageData.data[i+1] & 0xff
-          , b = imageData.data[i+2] & 0xff
-          , gray = (r + g + b) / 3;
-        
-        quant.push(gray & 0xc0);
-      }
-      
-      edge = ctx.createImageData(320, 240);
-      
-      for (var y = 1; y < 240 - 1; ++y) {
-        for (var x = 1; x < 320 - 1; ++x) {
-          var i = y * 320 + x
-            , c
-            , around = (quant[i-320] + quant[i-1] + quant[i+1] + quant[i+320]) / 4;
-
-          if (around < quant[i]) {
-            c = 0;
-          } else {
-            c = 255;
-          }
-          
-          edge.data[i*4] = c;
-          edge.data[i*4+1] = c;
-          edge.data[i*4+2] = c;
-          edge.data[i*4+3] = 255;
-        }
-      }
-      
-      ctx.putImageData(edge, 0, 0);
-      socket.emit('capture', canvas.toDataURL());
+      filter.postMessage(Array.prototype.slice.call(ctx.getImageData(0, 0, 320, 240).data, 0));
     });
     
+    filter.addEventListener('message', function(e) {
+      var ctx = canvas.getContext('2d')
+        , data = e.data
+        , imageData = ctx.createImageData(320, 240);
+      
+      for (var i = 0; i < data.length; ++i) {
+        imageData.data[i] = data[i];
+      }
+      
+      ctx.putImageData(imageData, 0, 0);
+      socket.emit('capture', canvas.toDataURL());
+    });
   });
   
 }(window, document, jQuery);

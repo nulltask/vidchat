@@ -12,6 +12,8 @@ var app = module.exports = express.createServer()
 
 // Configuration
 
+// io.set('log level', false);
+
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -46,7 +48,6 @@ io.sockets.on('connection', function(client) {
     io.sockets.emit('capture', data);
   });
   client.on('hello', function(data) {
-    console.log(data);
   });
 });
 
