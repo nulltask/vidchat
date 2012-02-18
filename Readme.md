@@ -30,6 +30,13 @@ __vidchat__ is experimental video chat implementation with Node.js + Socket.IO +
     
     $ node app
 
+## TODO
+
+* Multiple user support
+* Room (namespace) system
+* Text based chat
+* Support for binary transfer
+
 ## License
 
 (The MIT License)
