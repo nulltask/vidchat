@@ -6,7 +6,7 @@ __vidchat__ is experimental video chat implementation with Node.js + Socket.IO +
 
 ## Authors
 
-  - Seiya Konno &lt;nulltas@gmail.com&gt; ([nulltask](https://github.com/nulltask))
+  - Seiya Konno &lt;nulltask@gmail.com&gt; ([nulltask](https://github.com/nulltask))
 
 ## Requirement
 
