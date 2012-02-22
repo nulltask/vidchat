@@ -2,6 +2,8 @@
 
 __vidchat__ is experimental video chat implementation with Node.js + Socket.IO + WebRTC.
 
+* [Screencast](https://vimeo.com/36229857)
+
 ![vidchat](http://f.cl.ly/items/2L1P3S2c3F3p2N3l3Y0U/webrtc.png)
 
 ## Authors
