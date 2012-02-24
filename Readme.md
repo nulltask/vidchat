@@ -24,7 +24,7 @@ __vidchat__ is experimental video chat implementation with Node.js + Socket.IO +
 
 #### Grab code and resolving module dependencies.
 
-    $ git clone git@github.com:uniba/vidchat.git
+    $ git clone git@github.com:nulltask/vidchat.git
     $ cd vidchat
     $ npm install
 
