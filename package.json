@@ -6,6 +6,6 @@
     "express": "2.5.x"
   , "stylus": ">= 0.0.1"
   , "jade": ">= 0.0.1"
-  , "socket.io": "0.8.x"
+  , "socket.io": "0.9.x"
   }
 }
