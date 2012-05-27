@@ -14,7 +14,6 @@
       , receive = document.getElementById('receive')
       , filter = new Worker('/javascripts/filters/edge.js');
 
-    socket.emit('hello', { hello: 'world' });
     socket.on('capture', function(data) {
       receive.src = data;
     });
@@ -23,14 +22,20 @@
       // alert('your browser unsupported webrtc.');
       return false;
     }
-        
-    navigator.webkitGetUserMedia('video audio', function(stream) {
+
+    function onStream(stream) {
       video.src = webkitURL.createObjectURL(stream);
-      video.addEventListener('error', function () {
+      video.addEventListener('error', function() {
         stream.stop();
       });
-    });
+    }
     
+    try {
+      navigator.webkitGetUserMedia('video audio', onStream);
+    } catch (e) {
+      navigator.webkitGetUserMedia({ video: 1, audio: 1 }, onStream);
+    }
+
     $(video).on('timeupdate', function(e) {
       var ctx = canvas.getContext('2d');
       
