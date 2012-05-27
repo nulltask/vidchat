@@ -30,11 +30,11 @@
       });
     }
     
-    try {
-      navigator.webkitGetUserMedia({ video: true, audio: true }, onStream);
-    } catch (e) {
-      navigator.webkitGetUserMedia('video audio', onStream);
-    }
+    navigator.webkitGetUserMedia({
+        video: true
+      , audio: true
+      , toString: function() { return 'video, audio'; }
+    }, onStream);
 
     $(video).on('timeupdate', function(e) {
       var ctx = canvas.getContext('2d');
