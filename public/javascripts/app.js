@@ -31,9 +31,9 @@
     }
     
     try {
-      navigator.webkitGetUserMedia('video audio', onStream);
+      navigator.webkitGetUserMedia({ video: true, audio: true }, onStream);
     } catch (e) {
-      navigator.webkitGetUserMedia({ video: 1, audio: 1 }, onStream);
+      navigator.webkitGetUserMedia('video audio', onStream);
     }
 
     $(video).on('timeupdate', function(e) {
